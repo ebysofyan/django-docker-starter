@@ -10,7 +10,7 @@ and install so many dependency what my project needed using `pipenv`.
 3. Pipenv file with existing a few dependency like `django`, `drf`, `pylint`, `pylint_django`, and other
 
 ### How to run?
-If your operating system already installed with `docker` and `docker-compose`, you can execute this command
+If your operating system already installed with `docker` and `docker-compose`, you can execute this command</b>
 `docker-compose up`
 
 And .... waiting until docker finish to download the image.
