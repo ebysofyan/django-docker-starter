@@ -1,0 +1,35 @@
+version: '3.1'
+services: 
+  nginx:
+    image: nginx:latest
+    container_name: nginx01
+    ports: 
+      - "8000:8000"
+    volumes: 
+      - ./src:/src
+      - ./conf:/etc/nginx/conf.d
+    depends_on: 
+      - web
+  
+  web:
+    container_name: web01
+    build: 
+      context : .
+      dockerfile: Dockerfile 
+    command: bash -C "python manage.py makemigrations && python manage.py migrate && gunicorn config.wsgi -b 0.0.0.0:8000"
+    depends_on: 
+      - db
+    volumes: 
+      - ./src:/src
+    ports: 
+      - 8000:8000
+
+  db:
+    container_name: db01
+    image: postgres:9.6
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes: 
+  postgres_data:   
+

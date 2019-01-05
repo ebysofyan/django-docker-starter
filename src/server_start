@@ -1,0 +1,26 @@
+#!/bin/bash
+
+NAME="project_name"
+DJANGODIR=/src/
+# Activate this line if using sockfile
+# SOCKFILE=/run/gunicorn.sock
+USER=user
+GROUP=user
+NUM_WORKERS=3
+DJANGO_SETTINGS_MODULE=config.settings.production
+DJANGO_WSGI_MODULE=config.wsgi
+
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
+# RUNDIR=$(dirname $SOCKFILE)
+# test -d $RUNDIR || mkdir -p $RUNDIR
+
+exec gunicorn ${DJANGO_WSGI_MODULE}:application -b 0.0.0.0:8000
+  # --name $NAME \
+  # --workers $NUM_WORKERS \
+  # --user=$USER --group=$GROUP \
+  # --bind=unix:$SOCKFILE \
+  # --log-level=debug \
+  # --log-file=-
+
