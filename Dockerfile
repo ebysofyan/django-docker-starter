@@ -5,7 +5,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /conf
-ADD ./conf /conf
+ADD ./nginx /nginx
 
 RUN mkdir /logs
 ADD ./logs /logs
@@ -15,6 +15,12 @@ RUN mkdir /src
 WORKDIR /src
 ADD ./src /src
 
-RUN pip3 install pipenv
-RUN pipenv install --system --dev
-RUN python manage.py makemigrations; python manage.py migrate; gunicorn config.wsgi -b 0.0.0.0:8085 --reload
+RUN pip install --upgrade pip
+
+ADD ./src/requirements.txt /src
+
+RUN pip install -r requirements.txt
+
+# RUN pip3 install pipenv
+# RUN pipenv install --system --dev
+# RUN python manage.py makemigrations; python manage.py migrate;
